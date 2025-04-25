@@ -1,13 +1,10 @@
-import os
 import logging
-
-# Параметры приложения (настроить при необходимости)
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-MAX_IMAGE_SIZE = 5 * 1024 * 1024  # 5 MB
+from app.config import ALLOWED_EXTENSIONS, MAX_IMAGE_SIZE
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
 
 def allowed_file(filename):
     """
@@ -22,6 +19,7 @@ def allowed_file(filename):
     if '.' not in filename:
         return False
     return filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 def validate_image(file_content, filename):
     """
@@ -45,6 +43,7 @@ def validate_image(file_content, filename):
         return False, f"File format not supported. Allowed formats: {', '.join(ALLOWED_EXTENSIONS)}"
 
     return True, "Image is valid"
+
 
 def format_prediction_result(prediction_result, execution_time):
     """

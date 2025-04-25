@@ -1,8 +1,8 @@
 import time
+import logging
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from fastapi.responses import JSONResponse
 from typing import Optional
-import logging
 
 from app.classifier.model import classifier
 from app.classifier.utils import validate_image, format_prediction_result
@@ -46,13 +46,9 @@ async def classify_image(
         if not is_valid:
             raise HTTPException(status_code=400, detail=message)
 
-        # Start inference timer
+        # Inference
         inference_start = time.time()
-
-        # Classify image
         predictions = classifier.predict(contents)
-
-        # Measure inference time
         inference_time = time.time() - inference_start
         logger.info(f"Model inference took {inference_time:.3f} seconds")
 
@@ -61,7 +57,7 @@ async def classify_image(
             predictions = predictions[:top_k]
 
         # Calculate total execution time
-        execution_time = (time.time() - start_time) * 1000  # Convert to ms
+        execution_time = (time.time() - start_time) * 1000  # ms
 
         # Format response
         result = format_prediction_result(predictions, execution_time)
@@ -69,7 +65,6 @@ async def classify_image(
         return JSONResponse(content=result)
 
     except HTTPException:
-        # Propagate HTTP errors
         raise
 
     except Exception as e:
@@ -77,5 +72,4 @@ async def classify_image(
         raise HTTPException(status_code=500, detail=str(e))
 
     finally:
-        # Reset file position
         await file.seek(0)
