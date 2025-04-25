@@ -1,3 +1,4 @@
+import os
 import logging
 from app.config import ALLOWED_EXTENSIONS, MAX_IMAGE_SIZE
 

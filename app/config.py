@@ -19,6 +19,10 @@ IMAGE_SIZE = (224, 224)  # Default for MobileNet
 HOST = os.getenv("HOST", "0.0.0.0")
 PORT = int(os.getenv("PORT", "8000"))
 
+# Prometheus Metrics
+METRICS_PORT = int(os.getenv("METRICS_PORT", "8001"))
+METRICS_HOST = os.getenv("METRICS_HOST", "0.0.0.0")
+
 # Classification Configuration
 CONFIDENCE_THRESHOLD = float(os.getenv("CONFIDENCE_THRESHOLD", "0.5"))
 MAX_RESULTS = int(os.getenv("MAX_RESULTS", "5"))
