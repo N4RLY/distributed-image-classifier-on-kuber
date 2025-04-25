@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: image-classifier-config
+data:
+  MODEL_NAME: "mobilenet_v2"
+  CONFIDENCE_THRESHOLD: "0.5"
+  MAX_RESULTS: "5"
+  MAX_IMAGE_SIZE: "10485760"  # 10MB in bytes 
