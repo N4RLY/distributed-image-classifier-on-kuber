@@ -14,6 +14,9 @@ spec:
     metadata:
       labels:
         app: image-classifier
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8001"
     spec:
       containers:
       - name: image-classifier
