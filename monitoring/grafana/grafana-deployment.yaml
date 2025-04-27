@@ -24,10 +24,20 @@ spec:
         volumeMounts:
         - name: grafana-provisioning-datasources
           mountPath: /etc/grafana/provisioning/datasources
+        - name: grafana-dashboards
+          mountPath: /var/lib/grafana/dashboards
+        - name: grafana-provisioning-dashboards
+          mountPath: /etc/grafana/provisioning/dashboards
       volumes:
       - name: grafana-provisioning-datasources
         configMap:
           name: grafana-provisioning-datasources
+      - name: grafana-dashboards
+        configMap:
+          name: grafana-dashboards
+      - name: grafana-provisioning-dashboards
+        configMap:
+          name: grafana-provisioning-dashboards
 ---
 apiVersion: v1
 kind: Service
@@ -59,3 +69,39 @@ data:
         access: proxy
         url: http://prometheus:9090
         isDefault: true
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboards
+  namespace: monitoring
+data:
+  image-classifier-dashboard.json: |
+    {
+      "annotations": {
+        "list": []
+      },
+      "panels": [],
+      "title": "Image Classifier Dashboard",
+      "uid": "image-classifier-dashboard",
+      "version": 1
+    }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-provisioning-dashboards
+  namespace: monitoring
+data:
+  dashboards.yaml: |
+    apiVersion: 1
+    providers:
+      - name: 'default'
+        orgId: 1
+        folder: ''
+        type: file
+        disableDeletion: false
+        updateIntervalSeconds: 10
+        allowUiUpdates: true
+        options:
+          path: /var/lib/grafana/dashboards
