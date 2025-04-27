@@ -56,6 +56,8 @@ load-testing/test-images/*
 logs/
 assets/*.png
 notebook/*.ipynb_checkpoints/
+.history/
+
 
 # TensorFlow saved models
 *.pb
