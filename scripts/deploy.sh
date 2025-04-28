@@ -46,7 +46,6 @@ sed -i.bak "s|\${DOCKER_REGISTRY:-localhost}/image-classifier:latest|$FULL_IMAGE
 kubectl apply -f kubernetes/configmap.yaml -n "${NAMESPACE}"
 kubectl apply -f kubernetes/deployment.yaml -n "${NAMESPACE}"
 kubectl apply -f kubernetes/service.yaml -n "${NAMESPACE}"
-kubectl apply -f kubernetes/ingress.yaml -n "${NAMESPACE}"
 kubectl apply -f kubernetes/hpa.yaml -n "${NAMESPACE}"
 
 # Restore original deployment.yaml
@@ -75,12 +74,6 @@ echo "You can open these services:"
 echo "- API:        minikube service image-classifier -n ${NAMESPACE} --url"
 echo "- Prometheus: minikube service prometheus -n ${NAMESPACE} --url"
 echo "- Grafana:    minikube service grafana -n ${NAMESPACE} --url"
-
-# Small tip if tunnel is not running
-if ! pgrep -f "minikube tunnel" > /dev/null; then
-    echo ""
-    echo "Tip: If you want LoadBalancer and Ingress to work, run 'minikube tunnel' in another terminal."
-fi
 
 # Show pods
 echo ""
