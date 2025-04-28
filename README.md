@@ -1,5 +1,5 @@
 # **Distributed Image Classifier on Kubernetes** 
-This is a scalable machine learning application designed to classify uploaded images via a REST API.
+This is a scalable machine learning application designed to classify uploaded images via a FastAPI.
 
 The project uses the following key services:
 
@@ -40,10 +40,9 @@ if ($oldPath.Split(';') -inotcontains 'C:\minikube'){
 
 For other architectures use [minikube documentation](https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download) 
 
-### 2. Start a Minikube cluster and enable the ingress addon:
+### 2. Start a Minikube cluster:
 ```sh 
 minikube start --cpus=4 --memory=4g
-minikube addons enable ingress
 ```
 ### 3. Run the deployment script 
 ```sh 
