@@ -59,4 +59,4 @@ spec:
   - port: 9090
     targetPort: 9090
     name: http
-  type: ClusterIP 
+  type: LoadBalancer 
