@@ -1,5 +1,19 @@
-# distributed-image-classifier-on-kuber
+# **Distributed Image Classifier on Kubernetes** 
+This is a scalable machine learning application designed to classify uploaded images via a REST API.
 
+The project uses the following key services:
+
+- **Image Classifier**: Python web application (FastAPI) that accepts image uploads and returns classification results.
+- **Prometheus**: Collects and stores application metrics.
+- **Grafana**: Visualize metrics collected from the application via Prometheus, helping to monitor load and scaling under testing.
+- **Horizontal Pod Autoscaler (HPA)**: Automatically scales the API pods based on CPU and memory usage.
+- **Minikube**: Provides a local Kubernetes cluster.
+
+All services are deployed inside the Kubernetes cluster using YAML.
+
+&nbsp;
+&nbsp;
+&nbsp;
 
 ## Local Development Setup
 
@@ -39,35 +53,41 @@ minikube addons enable ingress
 After successful deployment, three services will be available. You can access them using the following commands:
 
 API:      
-```sh 
-minikube service image-classifier -n image-classifier --url
-```
+  ```sh 
+  minikube service image-classifier -n image-classifier --url
+  ```
 
 Prometheus: 
-```sh 
-minikube service prometheus -n image-classifier --url
-```
+  ```sh 
+  minikube service prometheus -n image-classifier --url
+  ```
 
 Grafana:    
-```sh 
-minikube service grafana -n image-classifier --url
-```
+  ```sh 
+  minikube service grafana -n image-classifier --url
+  ```
 
-### Load Testing the API
+&nbsp;
+&nbsp;
+
+
+
+## Load Testing
 
 To simulate high load on the API using the provided script, follow these steps:
 
 1. First, retrieve the API URL and port by running:
 
-```sh 
-minikube service image-classifier -n image-classifier --url
-```
+    ```sh 
+    minikube service image-classifier -n image-classifier --url
+    ```
 
 2. Copy the port from the _first line_ of output. It looks something like:
 
-```sh 
-http://192.168.49.2:30717
-```
+    ```sh 
+    http://192.168.49.2:30717
+    http://192.168.49.2:30906
+    ```
 
     Here, `192.168.49.2` is host and `30717` is the port to use.
 
@@ -85,7 +105,69 @@ http://192.168.49.2:30717
 
 The script will send multiple POST requests to the `/predict` endpoint, simulating concurrent users and allowing to observe system behavior and scaling in Grafana dashboards.
 
+&nbsp;
+&nbsp;
 
 ## Monitoring with Grafana
 
-Grafana is used for visualizing metrics collected from the application via Prometheus.
+After deploying the services, Grafana will be available inside the cluster.
+
+1. First, retrieve the Grafana URL and port by running:
+
+   ```sh 
+   minikube service grafana -n image-classifier --url
+   ```
+This command will provide a URL, for example:
+    ```
+    http://192.168.49.2:30261
+    ```
+    
+Open this link in your browser.
+
+2. Use default login
+
+        Username: admin
+
+        Password: admin
+
+
+- The dashboard "Image Classifier Dashboard" is loaded automatically.
+
+Once logged in:
+
+3.  Open the side menu.
+
+4.  Navigate to Dashboards.
+
+5. You should find dashboard named "Image Classifier Dashboard" in General folder.
+    
+![image](https://github.com/user-attachments/assets/a6914ca5-10eb-47de-8345-c53863a0fe2e)
+
+- It shows request rates, latency, pod scaling, CPU/memory usage, and error rates.
+
+
+ ![image](https://github.com/user-attachments/assets/d43f4b69-8e3e-47d5-ba17-50ba02d21db1)
+
+
+&nbsp;
+&nbsp;
+
+## Cleaning Up Resources
+
+When you are done with testing or developing, you can clean up all deployed resources.
+
+Run cleanup script:
+ ```sh 
+ ./scripts/cleanup.sh
+ ```
+
+This script will:
+
+   * Delete the Kubernetes deployments, services, and monitoring tools.
+
+   * Free up resources used by Minikube.
+
+Stop and delete the Minikube cluster:
+```sh
+minikube delete
+```
