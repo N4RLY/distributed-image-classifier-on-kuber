@@ -35,10 +35,12 @@ echo "Applying Kubernetes manifests..."
 cp kubernetes/deployment.yaml kubernetes/deployment.yaml.bak
 
 # Change imagePullPolicy to Never for Minikube
-sed -i '' 's/imagePullPolicy: IfNotPresent/imagePullPolicy: Never/g' kubernetes/deployment.yaml
+sed -i.bak 's/imagePullPolicy: IfNotPresent/imagePullPolicy: Never/g' kubernetes/deployment.yaml
+
 
 # Replace placeholder image name in deployment
-sed -i '' "s|\${DOCKER_REGISTRY:-localhost}/image-classifier:latest|${FULL_IMAGE_NAME}|g" kubernetes/deployment.yaml
+sed -i.bak "s|\${DOCKER_REGISTRY:-localhost}/image-classifier:latest|$FULL_IMAGE_NAME|g" kubernetes/deployment.yaml
+
 
 # Apply manifests one by one
 kubectl apply -f kubernetes/configmap.yaml -n "${NAMESPACE}"
