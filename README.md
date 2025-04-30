@@ -104,6 +104,9 @@ To simulate high load on the API using the provided script, follow these steps:
 
 The script will send multiple POST requests to the `/predict` endpoint, simulating concurrent users and allowing to observe system behavior and scaling in Grafana dashboards.
 
+>  **Note:** The `./load-testing` folder includes a default test image named `images.jpeg`.  
+> You may replace the image content, but **do not change the filename**, as it is required for automated tests.
+
 &nbsp;
 &nbsp;
 
