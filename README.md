@@ -42,7 +42,7 @@ For other architectures use [minikube documentation](https://minikube.sigs.k8s.i
 
 ### 2. Start a Minikube cluster:
 ```sh 
-minikube start --cpus=4 --memory=4g
+minikube start --cpus=4 --memory=4g --addons=metrics-server
 ```
 ### 3. Run the deployment script 
 ```sh 
@@ -140,12 +140,12 @@ Once logged in:
 
 5. You should find dashboard named "Image Classifier Dashboard" in General folder.
     
-![image](https://github.com/user-attachments/assets/a6914ca5-10eb-47de-8345-c53863a0fe2e)
+![image](images/dashboards.png)
 
 - It shows request rates, latency, pod scaling, CPU/memory usage, and error rates.
 
 
- ![image](https://github.com/user-attachments/assets/d43f4b69-8e3e-47d5-ba17-50ba02d21db1)
+ ![image](images/metrics.png)
 
 
 &nbsp;
