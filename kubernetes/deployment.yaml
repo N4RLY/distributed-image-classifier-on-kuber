@@ -46,10 +46,10 @@ spec:
           periodSeconds: 5
         resources:
           requests:
-            cpu: 100m
-            memory: 256Mi
+            cpu: 300m
+            memory: 512Mi
           limits:
-            cpu: 500m
+            cpu: 600m
             memory: 1Gi
       volumes:
       - name: config-volume

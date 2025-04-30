@@ -34,10 +34,10 @@ spec:
           value: "5s"
         resources:
           requests:
-            cpu: 100m
+            cpu: 300m
             memory: 256Mi
           limits:
-            cpu: 200m
+            cpu: 600m
             memory: 512Mi
         volumeMounts:
         - name: grafana-dashboards

@@ -50,7 +50,7 @@ echo "Using test image: ${TEST_IMAGE_PATH}"
 echo "Sending 100 requests with 0.1 second sleep between them..."
 
 # Loop 100 times and send request each time
-for i in {1..100}; do
+for i in {1..1000}; do
     echo -n "Request $i: "
     RESPONSE=$(curl -s -X POST -F "file=@${TEST_IMAGE_PATH}" "${SERVICE_URL}/api/v1/classify")
     echo "$RESPONSE" | grep -o '"execution_time_ms":[0-9.]\+' || echo "Failed"
