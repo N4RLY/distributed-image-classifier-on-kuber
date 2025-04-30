@@ -29,10 +29,10 @@ This document outlines the architecture of a distributed image classifier deploy
 │   └── service.yaml
 ├── load-testing
 │   └── images.jpeg
-├── monitoring
+├── monitoring     # Prometheus & Grafana configs
 │   ├── grafana
 │   └── prometheus
-└── scripts
+└── scripts        # Bash scripts for deployment &testing
     ├── cleanup.sh
     ├── deploy.sh
     ├── load.sh
@@ -66,16 +66,7 @@ This system runs in a **Minikube-based Kubernetes cluster** and includes the fol
   Prometheus discovers the app via annotations and scrapes `/metrics`; Grafana is pre-configured with dashboards using Prometheus as the data source.
 
 
-1. **A client** sends a `POST /classify` request to the system with an image.
-2. The **Kubernetes LoadBalancer** receives the request and forwards it to one of the available **FastAPI application pods**.
-3. Inside the pod:
-   - The **FastAPI app** reads configuration settings.
-   - The uploaded image is preprocessed and passed to a pretrained **MobileNetV2 model** for classification.
-   - The result (e.g., predicted labels) is returned to the client.
-4. While handling the request, the app also updates **Prometheus metrics** (e.g., total requests, latency, model inference time).
-5. **Prometheus** scrapes these metrics from the `/metrics` endpoint every 5 seconds.
-6. **Grafana** reads the metrics from Prometheus and displays them on pre-configured dashboards.
-7. If traffic increases and CPU/memory usage crosses 80%, the **Horizontal Pod Autoscaler** scales the number of app pods up (up to 10). When load drops, it scales down (minimum 2 pods).
+See the **Request Flow** section below for a step-by-step walkthrough of how a client request is processed.
 
 --- 
 ## Deployment Environment
@@ -96,7 +87,8 @@ The system is deployed on a local **Minikube** Kubernetes cluster, which provide
 
 ### Key Components
 
-1. **Application (FastAPI + Classifier)**  
+1. **Application (FastAPI + Classifier)** 
+ Handles HTTP requests and classifies uploaded images using a neural network. 
    - A FastAPI web server handles image upload and classification.  
    - Uses a pretrained **MobileNetV2** model to predict image labels.  
    - Main components:
@@ -160,7 +152,6 @@ The system is deployed on a local **Minikube** Kubernetes cluster, which provide
 - **Scale triggers**:  
   - CPU > 80%  
   - Memory > 80%  
-
 
 
 ---
